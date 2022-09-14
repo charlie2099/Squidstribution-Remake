@@ -1,6 +1,6 @@
 ﻿using System;
 using Enemies.Soldier.States;
-using FSM;
+using Systems.FSM;
 using UnityEngine;
 
 namespace Enemies.Soldier
