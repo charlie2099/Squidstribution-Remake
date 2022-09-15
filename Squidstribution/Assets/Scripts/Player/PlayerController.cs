@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-
         _playerInputActions = new PlayerInputActions();
     }
 
@@ -26,6 +25,9 @@ public class PlayerController : MonoBehaviour
     {
         _playerInputActions.Player.LightAttack.started += DoLightAttack;
         _playerInputActions.Player.HeavyAttack.started += DoHeavyAttack;
+        _playerInputActions.Player.SpinAttack.started += DoSpinAttack;
+        _playerInputActions.Player.InkBlast.started += DoInkBlast;
+        _playerInputActions.Player.Throw.started += DoThrow;
         _playerInputActions.Player.Dash.started += DoDash;
         _playerInputActions.Player.Dash.canceled += StopDash;
         _movement = _playerInputActions.Player.Move;
@@ -36,6 +38,9 @@ public class PlayerController : MonoBehaviour
     {
         _playerInputActions.Player.LightAttack.started -= DoLightAttack;
         _playerInputActions.Player.HeavyAttack.started -= DoHeavyAttack;
+        _playerInputActions.Player.SpinAttack.started -= DoSpinAttack;
+        _playerInputActions.Player.InkBlast.started -= DoInkBlast;
+        _playerInputActions.Player.Throw.started -= DoThrow;
         _playerInputActions.Player.Dash.started -= DoDash;
         _playerInputActions.Player.Dash.canceled -= StopDash;
         _playerInputActions.Player.Disable();
@@ -91,6 +96,21 @@ public class PlayerController : MonoBehaviour
     private void DoLightAttack(InputAction.CallbackContext obj)
     {
         _animator.SetTrigger("lightattack");
+    }
+    
+    private void DoSpinAttack(InputAction.CallbackContext obj)
+    {
+        _animator.SetTrigger("spinattack");
+    }
+    
+    private void DoInkBlast(InputAction.CallbackContext obj)
+    {
+        _animator.SetTrigger("inkblast");
+    }
+    
+    private void DoThrow(InputAction.CallbackContext obj)
+    {
+        _animator.SetTrigger("throw");
     }
     
     private void DoHeavyAttack(InputAction.CallbackContext obj)
