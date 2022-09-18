@@ -100,6 +100,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Pickup"",
+                    ""type"": ""Button"",
+                    ""id"": ""38afdcb6-3977-48c2-9039-7dc0ea2f9f76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""000d135b-3f0a-4447-8b34-ae219f4f281e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Throw"",
                     ""type"": ""Button"",
                     ""id"": ""3d4463ab-a5ee-482a-9339-63b49c1555b1"",
@@ -244,6 +262,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""fc78ab94-1159-4bab-b518-a16e30b2570c"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5073b245-dbf3-4609-b704-db9c7544e0f4"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""569ad917-6f54-49c2-a826-b9cc48f7761f"",
                     ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
@@ -268,6 +308,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Special = m_Player.FindAction("Special", throwIfNotFound: true);
         m_Player_SpinAttack = m_Player.FindAction("SpinAttack", throwIfNotFound: true);
         m_Player_InkBlast = m_Player.FindAction("InkBlast", throwIfNotFound: true);
+        m_Player_Pickup = m_Player.FindAction("Pickup", throwIfNotFound: true);
+        m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
     }
 
@@ -336,6 +378,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Special;
     private readonly InputAction m_Player_SpinAttack;
     private readonly InputAction m_Player_InkBlast;
+    private readonly InputAction m_Player_Pickup;
+    private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Throw;
     public struct PlayerActions
     {
@@ -349,6 +393,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Special => m_Wrapper.m_Player_Special;
         public InputAction @SpinAttack => m_Wrapper.m_Player_SpinAttack;
         public InputAction @InkBlast => m_Wrapper.m_Player_InkBlast;
+        public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
+        public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -383,6 +429,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @InkBlast.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInkBlast;
                 @InkBlast.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInkBlast;
                 @InkBlast.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInkBlast;
+                @Pickup.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Drop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
+                @Drop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
+                @Drop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
                 @Throw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
@@ -414,6 +466,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @InkBlast.started += instance.OnInkBlast;
                 @InkBlast.performed += instance.OnInkBlast;
                 @InkBlast.canceled += instance.OnInkBlast;
+                @Pickup.started += instance.OnPickup;
+                @Pickup.performed += instance.OnPickup;
+                @Pickup.canceled += instance.OnPickup;
+                @Drop.started += instance.OnDrop;
+                @Drop.performed += instance.OnDrop;
+                @Drop.canceled += instance.OnDrop;
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
@@ -431,6 +489,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSpecial(InputAction.CallbackContext context);
         void OnSpinAttack(InputAction.CallbackContext context);
         void OnInkBlast(InputAction.CallbackContext context);
+        void OnPickup(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
     }
 }
