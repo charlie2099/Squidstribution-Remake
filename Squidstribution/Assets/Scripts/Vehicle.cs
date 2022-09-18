@@ -3,26 +3,16 @@ using UnityEngine;
 
 public class Vehicle : MonoBehaviour, IDamageable, IPickupable
 {
+    // Events
     public Action<float, float> OnDamageReceived;
+    public Action OnDestroyed;
+    
+    [SerializeField] private float maxHealth;
     public float CurrentHealth { get; set; }
-
-    private float _maxHealth;
-    /*private float _timePassed; */
 
     private void Start()
     {
-        /*_timePassed = 1.0f;*/
-        _maxHealth = 100;
-        CurrentHealth = _maxHealth;
-    }
-
-    private void Update()
-    {
-        /*if (Time.time > _timePassed)
-        {
-            TakeDamage(25);
-            _timePassed = Time.time + 1.0f;
-        }*/
+        CurrentHealth = maxHealth;
     }
 
     public void TakeDamage(float damage)
@@ -31,9 +21,10 @@ public class Vehicle : MonoBehaviour, IDamageable, IPickupable
         
         if (CurrentHealth <= 0)
         {
+            OnDestroyed?.Invoke();
             Destroy(gameObject);
         }
-        OnDamageReceived?.Invoke(CurrentHealth, _maxHealth);
+        OnDamageReceived?.Invoke(CurrentHealth, maxHealth);
     }
 
     public void Pickup(GameObject obj)

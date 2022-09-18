@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
+    [Tooltip("Should match the maxSpeed of the PlayerController")]
+    [SerializeField] private float maxSpeed = 5.0f;
+    
     private Animator _animator;
     private Rigidbody _rigidbody;
-    [SerializeField] private float maxSpeed = 5.0f;
 
     private void Awake()
     {

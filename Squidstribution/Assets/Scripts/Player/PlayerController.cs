@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -9,7 +10,6 @@ namespace Player
     {
         [SerializeField] private float movementForce = 1.0f;
         [SerializeField] private float maxSpeed = 5f;
-        [SerializeField] private Vector3 forceDir = Vector3.zero;
         [SerializeField] private Camera playerCamera;
     
         private PlayerInputActions _playerInputActions;
@@ -17,7 +17,7 @@ namespace Player
         private Rigidbody _rigidbody;
         private Animator _animator;
         private Transform _target;
-        private bool _isAttacking;
+        private Vector3 _forceDir = Vector3.zero;
 
         private void Awake()
         {
@@ -28,6 +28,7 @@ namespace Player
 
         private void OnEnable()
         {
+            _movement = _playerInputActions.Player.Move;
             _playerInputActions.Player.LightAttack.started += DoLightAttack;
             _playerInputActions.Player.HeavyAttack.started += DoHeavyAttack;
             _playerInputActions.Player.SpinAttack.started += DoSpinAttack;
@@ -37,7 +38,6 @@ namespace Player
             _playerInputActions.Player.Throw.started += DoThrow;
             _playerInputActions.Player.Dash.started += DoDash;
             _playerInputActions.Player.Dash.canceled += StopDash;
-            _movement = _playerInputActions.Player.Move;
             _playerInputActions.Player.Enable();
         }
 
@@ -82,17 +82,15 @@ namespace Player
                 Debug.Log("IN FRONT");
                 Debug.DrawLine(transform.position, target.position, Color.green);
             }*/
-            
-            Debug.Log("IsAttacking: " + _isAttacking);
         }
 
         private void FixedUpdate()
         {
-            forceDir += _movement.ReadValue<Vector2>().x * GetCameraRight(playerCamera) * movementForce;
-            forceDir += _movement.ReadValue<Vector2>().y * GetCameraForward(playerCamera) * movementForce;
+            _forceDir += _movement.ReadValue<Vector2>().x * GetCameraRight(playerCamera) * movementForce;
+            _forceDir += _movement.ReadValue<Vector2>().y * GetCameraForward(playerCamera) * movementForce;
         
-            _rigidbody.AddForce(forceDir, ForceMode.Impulse);
-            forceDir = Vector3.zero; // So the character comes to a stop immediately after receiving no more input
+            _rigidbody.AddForce(_forceDir, ForceMode.Impulse);
+            _forceDir = Vector3.zero; // So the character comes to a stop immediately after receiving no more input
 
             Vector3 horizontalVelocity = _rigidbody.velocity;
             horizontalVelocity.y = 0;
@@ -102,15 +100,6 @@ namespace Player
             }
         
             LookAt();
-        }
-        
-        private void OnTriggerEnter(Collider other)
-        {
-            IDamageable hit = other.gameObject.GetComponent<IDamageable>();
-            if (hit != null && _isAttacking)
-            {
-                hit.TakeDamage(50); // scale damage based on size
-            }
         }
 
         private void LookAt()
@@ -205,19 +194,6 @@ namespace Player
             movementForce = 3;
             maxSpeed = 10;
         }
-
         #endregion
-
-        // Called by an animation event
-        private void DoAttack()
-        {
-            _isAttacking = true;
-        }
-        
-        // Called by an animation event
-        private void CancelAttack()
-        {
-            _isAttacking = false;
-        }
     }
 }
