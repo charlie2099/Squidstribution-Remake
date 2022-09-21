@@ -7,8 +7,8 @@ namespace Environment
     public class Building : MonoBehaviour, IDamageable, IDestructible
     {
         public Action OnDestroyed { get; set; } // IDestructible
-        public Action<float, float> OnDamageReceived;
-    
+        public Action OnDamaged { get; set; } // IDamageable
+
         public float CurrentHealth { get; set; } // IDamageable
         [SerializeField] private float maxHealth;
 
@@ -26,7 +26,7 @@ namespace Environment
                 OnDestroyed?.Invoke();
                 Destroy(gameObject);
             }
-            OnDamageReceived?.Invoke(CurrentHealth, maxHealth);
+            OnDamaged?.Invoke();
         }
     }
 }

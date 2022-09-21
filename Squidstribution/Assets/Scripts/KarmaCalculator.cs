@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerGrowthCalculator))]
 public class KarmaCalculator : MonoBehaviour
 {
+    public Action<float> KarmaChanged;
     public float Karma { private set; get; }
 
     private PlayerGrowthCalculator _playerGrowthCalculator;
@@ -40,8 +42,6 @@ public class KarmaCalculator : MonoBehaviour
     {
         //Karma += buildingStats.karma * buildingStats.maxHealth * _playerGrowthCalculator.PlayerGrowthFactor;
         Karma += karma * _playerGrowthCalculator.GrowthFactor;
-        Debug.Log("Building karma: " + karma);
-        Debug.Log("Building maxHealth: " + karma);
-        Debug.Log("Player TOTAL Karma: " + Karma);
+        KarmaChanged?.Invoke(Karma);
     }
 }

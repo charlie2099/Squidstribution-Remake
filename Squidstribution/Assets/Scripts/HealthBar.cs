@@ -1,5 +1,6 @@
 ﻿using System;
 using Environment;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,28 +8,42 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Transform healthBar;
 
-    private Vehicle _vehicle;
+    private IDamageable _damageable;
 
     private void Awake()
     {
-        _vehicle = transform.GetComponent<Vehicle>();
+        if (GetComponent<IDamageable>() == null)
+        {
+            Debug.LogError("GameObject does not contain a IDamageable component!", this);
+        }
+        _damageable = GetComponent<IDamageable>();
+    }
+
+    private void Start()
+    {
+        //healthBar.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        _vehicle.OnDamageReceived += UpdateHealthBar;
+        _damageable.OnDamaged += UpdateHealthBar;
     }
 
     private void OnDisable()
     {
-        _vehicle.OnDamageReceived -= UpdateHealthBar;
+        _damageable.OnDamaged -= UpdateHealthBar;
     }
 
-    private void UpdateHealthBar(float health, float maxHealth)
+    private void Update()
     {
-        //Debug.Log("Health: " + health);
-        //Debug.Log("MaxHealth: " + maxHealth);
-        healthBar.GetComponent<Slider>().maxValue = maxHealth;
-        healthBar.GetComponent<Slider>().value = health;
+        // track player camera rotation
+        healthBar.transform.rotation = Camera.main.transform.rotation;
+    }
+
+    private void UpdateHealthBar()
+    {
+        healthBar.gameObject.SetActive(true);
+        healthBar.GetComponent<Slider>().maxValue = 250; // TODO: FIX hardcoded value
+        healthBar.GetComponent<Slider>().value = _damageable.CurrentHealth;
     }
 }

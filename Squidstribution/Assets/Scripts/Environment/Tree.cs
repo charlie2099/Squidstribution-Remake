@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace Environment
 {
-    public class Tree : MonoBehaviour, IDamageable
+    public class Tree : MonoBehaviour, IDamageable, IDestructible
     {
+        public Action OnDestroyed { get; set; } // IDestructible
+        public Action OnDamaged { get; set; } // IDamageable
+
         public float CurrentHealth { get; set; } // IDamageable
         [SerializeField] private float maxHealth;
 
@@ -20,8 +23,10 @@ namespace Environment
         
             if (CurrentHealth <= 0)
             {
+                OnDestroyed?.Invoke();
                 Destroy(gameObject);
             }
+            OnDamaged?.Invoke();
         }
     }
 }

@@ -11,6 +11,10 @@ namespace Effects
 
         private void Awake()
         {
+            if (GetComponent<IDestructible>() == null)
+            {
+                Debug.LogError("GameObject does not contain a IDestructible component!", this);
+            }
             _destructible = GetComponent<IDestructible>();
         }
 

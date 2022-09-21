@@ -187,6 +187,7 @@ namespace Player
         {
             movementForce = 6;
             maxSpeed = 20;
+            // TODO: Inflict damage whilst dashing (if object noticeably smaller than the player)
         }
     
         private void StopDash(InputAction.CallbackContext obj)
