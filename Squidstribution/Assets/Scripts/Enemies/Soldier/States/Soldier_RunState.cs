@@ -12,8 +12,19 @@ namespace Enemies.Soldier.States
             _soldier = owner;
         }
 
-        public void OnStateEnter() { Debug.Log("<color=orange>Entering Soldier run state</color>"); }
-        public void OnStateUpdate() { Debug.Log("<color=orange>Executing Soldier run state</color>"); }
-        public void OnStateExit() { Debug.Log("<color=orange>Exiting Soldier run state</color>"); }
+        public void OnStateEnter()
+        {
+            //_soldier.SetNavAgentSpeed(1.0f);
+        }
+
+        public void OnStateUpdate()
+        {
+            
+        }
+
+        public void OnStateExit()
+        {
+           
+        }
     }
 }

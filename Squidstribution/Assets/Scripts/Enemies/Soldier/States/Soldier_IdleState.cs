@@ -12,8 +12,28 @@ namespace Enemies.Soldier.States
             _soldier = owner;
         }
 
-        public void OnStateEnter() { Debug.Log("<color=orange>Entering Soldier idle state</color>"); }
-        public void OnStateUpdate() { Debug.Log("<color=orange>Executing Soldier idle state</color>"); }
-        public void OnStateExit() { Debug.Log("<color=orange>Exiting Soldier idle state</color>"); }
+        public void OnStateEnter()
+        {
+            //_soldier.SetNavAgentSpeed(0.0f);
+        }
+
+        public void OnStateUpdate()
+        {
+            if (Vector3.Distance(_soldier.transform.position, _soldier.Player.position) < _soldier.ViewDistance)
+            {
+                _soldier.StateMachineFsm.ChangeState(_soldier.States[typeof(Soldier_WalkState)]);
+            }
+        }
+
+        public void OnStateExit()
+        {
+            
+        }
+        
+        // Idle
+        // Patrol / Wander
+        // Search
+        // Chase
+        // Attack
     }
 }

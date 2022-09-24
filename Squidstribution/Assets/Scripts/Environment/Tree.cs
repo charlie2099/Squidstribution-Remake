@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Environment
 {
-    public class Tree : MonoBehaviour, IDamageable, IDestructible
+    public class Tree : MonoBehaviour, IDamageable
     {
-        public Action OnDestroyed { get; set; } // IDestructible
-        public Action OnDamaged { get; set; } // IDamageable
+        public event Action OnDamaged;
+        public event Action OnDestroyed;
 
         public float CurrentHealth { get; set; } // IDamageable
         [SerializeField] private float maxHealth;

@@ -9,7 +9,7 @@ public class KarmaCalculator : MonoBehaviour
     public float Karma { private set; get; }
 
     private PlayerGrowthCalculator _playerGrowthCalculator;
-    private List<KarmaObject> _karmaObjects = new List<KarmaObject>();
+    private List<KarmaObject> _karmaObjects = new();
 
     private void Awake()
     {
