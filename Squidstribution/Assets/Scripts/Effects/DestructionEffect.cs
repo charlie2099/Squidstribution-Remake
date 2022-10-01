@@ -6,7 +6,6 @@ namespace Effects
     public class DestructionEffect : MonoBehaviour
     {
         [SerializeField] private GameObject explosionPrefab;
-    
         private IDamageable _damageable; 
 
         private void Awake()
@@ -18,17 +17,9 @@ namespace Effects
             _damageable = GetComponent<IDamageable>();
         }
 
-        private void OnEnable()
-        {
-            //_damageable.OnDamaged += PlayDamageEffect;
-            _damageable.OnDestroyed += PlayExplosionEffect;
-        }
+        private void OnEnable() => _damageable.OnDestroyed += PlayExplosionEffect;
 
-        private void OnDisable()
-        {
-            //_damageable.OnDamaged -= PlayDamageEffect;
-            _damageable.OnDestroyed -= PlayExplosionEffect;
-        }
+        private void OnDisable() => _damageable.OnDestroyed -= PlayExplosionEffect;
 
         private void PlayDamageEffect()
         {

@@ -1,14 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGrowthCalculator : MonoBehaviour
+namespace Player
 {
-    public int GrowthFactor { private set; get; }
-
-    private void Start()
+    public class PlayerGrowthCalculator : MonoBehaviour
     {
-        GrowthFactor = 1;
+        public int GrowthFactor { private set; get; }
+
+        private void Start()
+        {
+            GrowthFactor = 1;
+        }
     }
 }

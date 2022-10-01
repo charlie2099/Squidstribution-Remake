@@ -6,9 +6,6 @@ public class KarmaObject : MonoBehaviour
     [SerializeField] private float karma;
     public Action<float> OnDestroyed;
 
-    private void OnDestroy()
-    {
-        OnDestroyed?.Invoke(karma);
-    }
+    private void OnDestroy() => OnDestroyed?.Invoke(karma);
 }
 

@@ -24,15 +24,9 @@ public class HealthBar : MonoBehaviour
         //healthBar.gameObject.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        _damageable.OnDamaged += UpdateHealthBar;
-    }
+    private void OnEnable() => _damageable.OnDamaged += UpdateHealthBar;
 
-    private void OnDisable()
-    {
-        _damageable.OnDamaged -= UpdateHealthBar;
-    }
+    private void OnDisable() => _damageable.OnDamaged -= UpdateHealthBar;
 
     private void Update()
     {

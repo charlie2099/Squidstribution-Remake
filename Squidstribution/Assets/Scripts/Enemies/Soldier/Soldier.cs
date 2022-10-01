@@ -10,13 +10,14 @@ namespace Enemies.Soldier
     public class Soldier : Enemy
     {
         #region Getters
-        public float ViewDistance => viewDistance;
+        public float DistanceFromPlayer => distanceFromPlayer;
         public Dictionary<Type, IState> States => _cachedStatesDict;
         #endregion
 
         [SerializeField] private float health;
-        [SerializeField] private float viewDistance;
-        
+        [SerializeField] private float distanceFromPlayer;
+        [SerializeField] private List<Waypoint> patrolPoints;  // Queue?
+
         private Dictionary<Type, IState> _cachedStatesDict;
 
         private void Start()
@@ -29,14 +30,19 @@ namespace Enemies.Soldier
             
             _cachedStatesDict = new Dictionary<Type, IState>
             {
-                { typeof(Soldier_IdleState), new Soldier_IdleState(this)},
+                { typeof(Soldier_GuardState), new Soldier_GuardState(this)},
                 { typeof(Soldier_WalkState), new Soldier_WalkState(this)},
                 { typeof(Soldier_RunState), new Soldier_RunState(this)},
+                { typeof(Soldier_AttackState), new Soldier_AttackState(this)}
             };
             
-            StateMachineFsm.ChangeState(_cachedStatesDict[typeof(Soldier_IdleState)]);
+            StateMachineFsm.ChangeState(_cachedStatesDict[typeof(Soldier_GuardState)]);
 
             CurrentHealth = health;
+            
+            // Idle
+            // Patrol 
+            // Attack
         }
     }
 }

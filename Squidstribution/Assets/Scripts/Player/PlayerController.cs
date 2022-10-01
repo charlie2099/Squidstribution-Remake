@@ -18,6 +18,7 @@ namespace Player
         private Animator _animator;
         private Transform _target;
         private Vector3 _forceDir = Vector3.zero;
+        private bool _moveCamera;
 
         private void Awake()
         {
